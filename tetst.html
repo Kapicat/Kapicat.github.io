@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Строительство каркасных домов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px);
+            padding: 20px;
+        }
+        
+        .consultation-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .consultation-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Строительство каркасных домов</h1>
+    </header>
+    
+    <div class="container">
+        <div class="consultation-form">
+            <h2 class="consultation-title">Желаете получить консультацию?</h2>
+            
+            <form id="consultationForm">
+                <div class="form-group">
+                    <label for="name">Ваше имя:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Ваш номер:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <button type="submit">Отправить заявку</button>
+            </form>
+            
+            <div id="successMessage" class="success-message">
+                Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('consultationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Получаем данные формы
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Отправляем данные в Google Таблицу (замените URL на свой)
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby8Qm_oA-60j3fYOWFBUT8AWj_B7NKVzmJne0TR-dVRYVRrBa4ixueXfz-doyuSl1JK/execL';
+            fetch(scriptURL, {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'name': name,
+                    'phone': phone
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Показываем сообщение об успехе
+                    document.getElementById('successMessage').style.display = 'block';
+                    // Очищаем форму
+                    document.getElementById('consultationForm').reset();
+                    // Скрываем сообщение через 5 секунд
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке формы. Пожалуйста, попробуйте еще раз.');
+            });
+        });
+    </script>
+</body>
+</html>
